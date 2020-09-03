@@ -15,7 +15,6 @@ class Slider extends Component {
             slidesToShow: 4,
             slidesToScroll: 1,
         };
-
         return (
             <div className="slick">
                 <SlickSlider {...settings}>{this.props.elements}</SlickSlider>
