@@ -5,6 +5,7 @@ import "./Home.css";
 import SearchBox from "./SearchBox";
 import Spinner from "../../utility/Spinner/Spinner";
 import Cities from "../../utility/Cities/Cities";
+import Activities from "../../utility/Activities/Activities";
 
 class Home extends Component {
     state = {
@@ -12,9 +13,11 @@ class Home extends Component {
         europeCities: {},
         asiaCities: {},
         exoticCities: {},
+        activities: [],
     };
 
     async componentDidMount() {
+        // CITIES ENDPOINTS
         // build urls for all endpoints
         const citiesUrl = `${process.env.REACT_APP_API_URL}/cities/recommended`;
         const europeCitiesUrl = `${process.env.REACT_APP_API_URL}/cities/europe`;
@@ -41,9 +44,15 @@ class Home extends Component {
                 exoticCities,
             });
         });
+
+        // ACTIVITIES ENDPOINTS
+        const activitiesUrl = `${process.env.REACT_APP_API_URL}/activities/today`;
+        const activities = await axios.get(activitiesUrl);
+        this.setState({ activities: activities.data });
     }
 
     render() {
+        console.log(this.state.activities);
         if (this.state.cities.length === 0) {
             return <Spinner />;
         }
@@ -65,6 +74,13 @@ class Home extends Component {
                             <Cities
                                 cities={this.state.cities}
                                 header="Recommended Cities For You"
+                            />
+                        </div>
+
+                        <div className="col s12">
+                            <Activities
+                                activities={this.state.activities}
+                                header="Today in your area"
                             />
                         </div>
 
