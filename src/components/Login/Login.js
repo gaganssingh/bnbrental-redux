@@ -7,6 +7,18 @@ import SignUp from "../SignUp/SignUp";
 import "./Login.css";
 
 class Login extends Component {
+    state = {
+        email: "",
+        password: "",
+    };
+    changeEmail = (e) => this.setState({ email: e.target.value });
+    changePassword = (e) => this.setState({ password: e.target.value });
+
+    submitLogin = (e) => {
+        e.preventDefault();
+        console.log(this.state.email, this.state.password);
+    };
+
     render() {
         return (
             <div className="login-form">
@@ -22,14 +34,16 @@ class Login extends Component {
                         <div className="or-divider"></div>
                     </div>
                     <input
-                        type="text"
+                        type="email"
                         className="browser-default"
                         placeholder="Email address"
+                        onChange={(e) => this.changeEmail(e)}
                     />
                     <input
                         type="password"
                         className="browser-default"
                         placeholder="Password"
+                        onChange={(e) => this.changePassword(e)}
                     />
                     <button className="sign-up-button">Login</button>
                     <div className="divider"></div>

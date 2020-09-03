@@ -38,18 +38,16 @@ class NavBar extends Component {
                                 <li>
                                     <Link to="/">Helo</Link>
                                 </li>
+                                {/* prettier-ignore */}
                                 <li
-                                    onClick={() =>
-                                        this.props.openModal("open", <SignUp />)
-                                    }
-                                >
+                                    className="login-signup"
+                                    onClick={() => this.props.openModal("open", <SignUp />)}>
                                     Sign up
                                 </li>
+                                {/* prettier-ignore */}
                                 <li
-                                    onClick={() =>
-                                        this.props.openModal("open", <Login />)
-                                    }
-                                >
+                                    className="login-signup"
+                                    onClick={() => this.props.openModal("open", <Login />)}>
                                     Log in
                                 </li>
                             </ul>

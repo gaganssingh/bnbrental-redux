@@ -35,7 +35,7 @@ class SingleFullVenue extends Component {
 
     render() {
         // prettier-ignore
-        const { amenities, details, guests, id, imageUrl, location, pricePerNight, rating, title } = this.state.singleVenue;
+        const { amenities, details, guests, imageUrl, location, pricePerNight, rating, title } = this.state.singleVenue;
         return (
             <div className="row single-venue">
                 <div className="col s12 center">
