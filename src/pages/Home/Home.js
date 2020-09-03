@@ -31,7 +31,9 @@ class Home extends Component {
                             <SearchBox />
                         </div>
                     </div>
-                    <Cities cities={this.state.cities} />
+                    <div className="col s12">
+                        <Cities cities={this.state.cities} />
+                    </div>
                 </div>
             </div>
         );
