@@ -1,7 +1,7 @@
 import React from "react";
 
 import City from "../City/City";
-import Slider from "../Slider/Slider";
+import Slider from "../../utility/Slider/Slider";
 
 const Cities = ({ cities, header }) => {
     const renderedCities = cities.map((city) => (

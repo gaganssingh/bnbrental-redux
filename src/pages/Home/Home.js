@@ -4,8 +4,10 @@ import axios from "axios";
 import "./Home.css";
 import SearchBox from "./SearchBox";
 import Spinner from "../../utility/Spinner/Spinner";
-import Cities from "../../utility/Cities/Cities";
-import Activities from "../../utility/Activities/Activities";
+
+import Activities from "../../components/Activities/Activities";
+import Cities from "../../components/Cities/Cities";
+import Venues from "../../components/Venues/Venues";
 
 class Home extends Component {
     state = {
@@ -14,6 +16,8 @@ class Home extends Component {
         asiaCities: {},
         exoticCities: {},
         activities: [],
+        venues: {},
+        superHostVenues: {},
     };
 
     async componentDidMount() {
@@ -25,12 +29,10 @@ class Home extends Component {
         const exoticCitiesUrl = `${process.env.REACT_APP_API_URL}/cities/exotic`;
 
         const citiesPromises = [];
-
         citiesPromises.push(axios.get(citiesUrl));
         citiesPromises.push(axios.get(europeCitiesUrl));
         citiesPromises.push(axios.get(asiaCitiesUrl));
         citiesPromises.push(axios.get(exoticCitiesUrl));
-
         Promise.all(citiesPromises).then((data) => {
             const recommendedCities = data[0].data;
             const europeCities = data[1].data;
@@ -49,11 +51,23 @@ class Home extends Component {
         const activitiesUrl = `${process.env.REACT_APP_API_URL}/activities/today`;
         const activities = await axios.get(activitiesUrl);
         this.setState({ activities: activities.data });
+
+        // VENUES ENDPOINT
+        const venuesUrl = `${process.env.REACT_APP_API_URL}/venues/recommended`;
+        const superHostVenuesUrl = `${process.env.REACT_APP_API_URL}/venues/superHost`;
+        const venuesPromises = [];
+        venuesPromises.push(axios.get(venuesUrl));
+        venuesPromises.push(axios.get(superHostVenuesUrl));
+        Promise.all(venuesPromises).then((data) => {
+            this.setState({
+                venues: data[0].data,
+                superHostVenues: data[1].data,
+            });
+        });
     }
 
     render() {
-        console.log(this.state.activities);
-        if (this.state.cities.length === 0) {
+        if (this.state.cities.length === 0 || !this.state.venues.venues) {
             return <Spinner />;
         }
 
@@ -92,9 +106,23 @@ class Home extends Component {
                         </div>
 
                         <div className="col s12">
+                            <Venues
+                                venues={this.state.venues.venues}
+                                header={this.state.venues.header}
+                            />
+                        </div>
+
+                        <div className="col s12">
                             <Cities
                                 cities={this.state.asiaCities.cities}
                                 header={this.state.asiaCities.header}
+                            />
+                        </div>
+
+                        <div className="col s12">
+                            <Venues
+                                venues={this.state.superHostVenues.venues}
+                                header={this.state.superHostVenues.header}
                             />
                         </div>
 
