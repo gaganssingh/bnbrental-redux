@@ -2,11 +2,10 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
+import Login from "../Login/Login";
 import openModal from "../../actions/openModal";
-import SignUp from "../SignUp/SignUp";
-import "./Login.css";
 
-class Login extends Component {
+class SignUp extends Component {
     render() {
         return (
             <div className="login-form">
@@ -21,27 +20,19 @@ class Login extends Component {
                         <span>or</span>
                         <div className="or-divider"></div>
                     </div>
-                    <input
-                        type="text"
-                        className="browser-default"
-                        placeholder="Email address"
-                    />
-                    <input
-                        type="password"
-                        className="browser-default"
-                        placeholder="Password"
-                    />
-                    <button className="sign-up-button">Login</button>
+                    <button className="sign-up-button">
+                        Sign up with email
+                    </button>
                     <div className="divider"></div>
                     <div>
-                        Don't have an account?{" "}
+                        Already have an account?{" "}
                         <span
                             className="pointer"
                             onClick={() => {
-                                this.props.openModal("open", <SignUp />);
+                                this.props.openModal("open", <Login />);
                             }}
                         >
-                            Sign up
+                            Log in
                         </span>
                     </div>
                 </form>
@@ -50,13 +41,13 @@ class Login extends Component {
     }
 }
 
-const mapDispatchToProps = (dispatcher) => {
+function mapDispatchToProps(dispatcher) {
     return bindActionCreators(
         {
             openModal: openModal,
         },
         dispatcher
     );
-};
+}
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(SignUp);
