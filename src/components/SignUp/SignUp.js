@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import axios from "axios";
+import swal from "sweetalert";
 
 import Login from "../Login/Login";
 import openModal from "../../actions/openModal";
+import regAction from "../../actions/regAction";
 
 class SignUp extends Component {
     constructor() {
@@ -40,9 +43,39 @@ class SignUp extends Component {
         });
     };
 
-    submitLogin = (e) => {
+    submitLogin = async (e) => {
         e.preventDefault();
-        console.log(this.state.email, this.state.password);
+
+        const url = `${process.env.REACT_APP_API_URL}/users/signup`;
+        const data = {
+            email: this.state.email,
+            password: this.state.password,
+        };
+
+        const response = await axios.post(url, data);
+
+        // Creating alert
+        if (response.data.msg === "userExists") {
+            swal({
+                title: "Email already in use",
+                text: "A user with that email already exists!",
+                icon: "error",
+            });
+        } else if (response.data.msg === "invalidData") {
+            swal({
+                title: "Invalid email or password",
+                text: "Please provide a valid email and password",
+                icon: "error",
+            });
+        } else if (response.data.msg === "userAdded") {
+            swal({
+                title: "Account created successfully",
+                text: "Your account has been successfully created.",
+                icon: "success",
+            });
+
+            this.props.regAction(response.data);
+        }
     };
 
     render() {
@@ -78,14 +111,21 @@ class SignUp extends Component {
     }
 }
 
-function mapDispatchToProps(dispatcher) {
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth,
+    };
+};
+
+const mapDispatchToProps = (dispatcher) => {
     return bindActionCreators(
         {
-            openModal: openModal,
+            openModal,
+            regAction,
         },
         dispatcher
     );
-}
+};
 
 const SignupInputFields = (props) => {
     return (
@@ -97,7 +137,6 @@ const SignupInputFields = (props) => {
                         type="email"
                         name="email"
                         id="email"
-                        value={props.email}
                         onChange={props.changeEmail}
                     />
                 </div>
@@ -109,7 +148,6 @@ const SignupInputFields = (props) => {
                         type="password"
                         name="password"
                         id="password"
-                        value={props.password}
                         onChange={props.changePassword}
                     />
                 </div>
@@ -123,4 +161,4 @@ const SignupInputFields = (props) => {
     );
 };
 
-export default connect(null, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

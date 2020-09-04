@@ -9,6 +9,12 @@ import SignUp from "../../components/SignUp/SignUp";
 import "./NavBar.css";
 
 class NavBar extends Component {
+    componentDidUpdate(oldProps) {
+        if (oldProps.auth.token !== this.props.auth.token) {
+            this.props.openModal("closed", "");
+        }
+    }
+
     render() {
         // Change background color of NavBar depending
         // on the page user is visiting
@@ -38,18 +44,32 @@ class NavBar extends Component {
                                 <li>
                                     <Link to="/">Helo</Link>
                                 </li>
-                                {/* prettier-ignore */}
-                                <li
-                                    className="login-signup"
-                                    onClick={() => this.props.openModal("open", <SignUp />)}>
-                                    Sign up
-                                </li>
-                                {/* prettier-ignore */}
-                                <li
-                                    className="login-signup"
-                                    onClick={() => this.props.openModal("open", <Login />)}>
-                                    Log in
-                                </li>
+                                {this.props.auth.email ? (
+                                    <>
+                                        <li>Hello, {this.props.auth.email}</li>
+                                        <li>Logout</li>
+                                    </>
+                                ) : (
+                                    <>
+                                        <li
+                                            className="login-signup"
+                                            onClick={() =>
+                                                this.props.openModal(
+                                                    "open",
+                                                    <SignUp />
+                                                )
+                                            }
+                                        >
+                                            Sign up
+                                        </li>
+                                        {/* prettier-ignore */}
+                                        <li
+                                            className="login-signup"
+                                            onClick={() => this.props.openModal("open", <Login />)}>
+                                            Log in
+                                        </li>
+                                    </>
+                                )}
                             </ul>
                         </div>
                     </nav>
@@ -58,6 +78,12 @@ class NavBar extends Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth,
+    };
+};
 
 const mapDispatchToProps = (dispatcher) => {
     return bindActionCreators(
@@ -68,4 +94,4 @@ const mapDispatchToProps = (dispatcher) => {
     );
 };
 
-export default connect(null, mapDispatchToProps)(NavBar);
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
