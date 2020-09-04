@@ -5,10 +5,10 @@ import "./City.css";
 
 class City extends Component {
     render() {
-        const { cityName, id, image, price } = this.props.city;
+        const { cityName, image, price } = this.props.city;
         return (
             <div className="city col s12">
-                <Link to={`/city/${id}`}>
+                <Link to={`/city/${cityName}`}>
                     <div className="image">
                         <img src={image} alt={cityName} />
                     </div>

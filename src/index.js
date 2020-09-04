@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import Spinner from "./utility/Spinner/Spinner";
 
 // Redux Setup
 import { Provider } from "react-redux";
@@ -27,7 +26,7 @@ const persistor = persistStore(theStore);
 
 ReactDOM.render(
     <Provider store={theStore}>
-        <PersistGate loading={Spinner} persistor={persistor}>
+        <PersistGate persistor={persistor}>
             <App />
         </PersistGate>
     </Provider>,

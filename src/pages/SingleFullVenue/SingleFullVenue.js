@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
-import "./SingleFullVenue.css";
+import openModal from "../../actions/openModal";
 import Point from "../../components/Point/Point";
+import "./SingleFullVenue.css";
+import Login from "../../components/Login/Login";
 
 class SingleFullVenue extends Component {
     state = {
@@ -36,6 +40,7 @@ class SingleFullVenue extends Component {
     render() {
         // prettier-ignore
         const { amenities, details, guests, imageUrl, location, pricePerNight, rating, title } = this.state.singleVenue;
+
         return (
             <div className="row single-venue">
                 <div className="col s12 center">
@@ -89,12 +94,29 @@ class SingleFullVenue extends Component {
                             </select>
                         </div>
                         <div className="col s12 center">
-                            <button
-                                onClick={this.reserveNow}
-                                className="btn red accent-2"
-                            >
-                                Reserve
-                            </button>
+                            {this.props.auth.token ? (
+                                <button
+                                    onClick={this.reserveNow}
+                                    className="btn red accent-2"
+                                >
+                                    Reserve
+                                </button>
+                            ) : (
+                                <div>
+                                    <span
+                                        className="text-link"
+                                        onClick={() =>
+                                            this.props.openModal(
+                                                "open",
+                                                <Login />
+                                            )
+                                        }
+                                    >
+                                        Log in
+                                    </span>{" "}
+                                    to reserve
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -103,16 +125,19 @@ class SingleFullVenue extends Component {
     }
 }
 
-// amenities: "Wifi"
-// details: "Romantic hideaway! This property has the lush beauty and privacy of Hana, without the drive! Only 15-20 minutes to the airport, 10 minutes to beaches, 2 minutes to restaurants and shops...on a private gated property with organic nursery. BEAUTIFUL!"
-// guests: 2
-// id: 3
-// imageUrl: "https://airbnb-clone-prexel-images.s3.amazonaws.com/waypoints/pondhouse.jpg"
-// location: " ENTIRE CABIN · ASHFIELD"
-// points: "Entire home,Self check-in,Sparkling clean,Superhost"
-// pricePerNight: 238
-// rating: 4.75
-// title: "The Pondhouse - A Magical Place"
-// uid: 1
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth,
+    };
+};
 
-export default SingleFullVenue;
+const mapDispatchToProps = (dispatcher) => {
+    return bindActionCreators(
+        {
+            openModal,
+        },
+        dispatcher
+    );
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleFullVenue);
