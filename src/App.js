@@ -7,6 +7,7 @@ import SingleFullVenue from "./pages/SingleFullVenue/SingleFullVenue";
 import Modal from "./utility/Modal/Modal";
 import CityVenues from "./pages/CityVenues/CityVenues";
 import "./App.css";
+import PaymentSuccess from "./pages/PaymentSuccess/PaymentSuccess";
 
 class App extends Component {
     render() {
@@ -16,6 +17,11 @@ class App extends Component {
                 <Route exact path="/" component={Home} />
                 <Route exact path="/venue/:vid" component={SingleFullVenue} />
                 <Route exact path="/city/:cityName" component={CityVenues} />
+                <Route
+                    exact
+                    path="/payment-success/:token"
+                    component={PaymentSuccess}
+                />
                 <Route path="/" component={Modal} />
             </Router>
         );
