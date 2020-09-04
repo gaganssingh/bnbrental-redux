@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import axios from "axios";
+import swal from "sweetalert";
 
 import openModal from "../../actions/openModal";
 import SignUp from "../SignUp/SignUp";
+import regAction from "../../actions/regAction";
 import "./Login.css";
 
 class Login extends Component {
@@ -14,9 +17,38 @@ class Login extends Component {
     changeEmail = (e) => this.setState({ email: e.target.value });
     changePassword = (e) => this.setState({ password: e.target.value });
 
-    submitLogin = (e) => {
+    submitLogin = async (e) => {
         e.preventDefault();
-        console.log(this.state.email, this.state.password);
+
+        const loginUser = {
+            email: this.state.email,
+            password: this.state.password,
+        };
+
+        const url = `${process.env.REACT_APP_API_URL}/users/login`;
+        const response = await axios.post(url, loginUser);
+        console.log(response.data);
+
+        if (response.data.msg === "loggedIn") {
+            swal({
+                title: "Login successfull",
+                text: "You have successfully logged in",
+                icon: "success",
+            });
+            this.props.regAction(response.data);
+        } else if (response.data.msg === "badPass") {
+            swal({
+                title: "Login failed",
+                text: "Invalid email or password. Please try again.",
+                icon: "error",
+            });
+        } else if (response.data.msg === "noEmail") {
+            swal({
+                title: "Login failed",
+                text: "A user with that email address does not exist",
+                icon: "error",
+            });
+        }
     };
 
     render() {
@@ -67,7 +99,8 @@ class Login extends Component {
 const mapDispatchToProps = (dispatcher) => {
     return bindActionCreators(
         {
-            openModal: openModal,
+            openModal,
+            regAction,
         },
         dispatcher
     );

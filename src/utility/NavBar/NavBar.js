@@ -42,13 +42,16 @@ class NavBar extends Component {
                                 <li>
                                     <Link to="/">Become a host</Link>
                                 </li>
-                                <li>
-                                    <Link to="/">Helo</Link>
-                                </li>
+
                                 {this.props.auth.email ? (
                                     <>
-                                        <li>Hello, {this.props.auth.email}</li>
-                                        <li onClick={this.props.logoutAction}>
+                                        <li className="login-signup">
+                                            Hey, {this.props.auth.email}
+                                        </li>
+                                        <li
+                                            className="login-signup"
+                                            onClick={this.props.logoutAction}
+                                        >
                                             Logout
                                         </li>
                                     </>
