@@ -8,6 +8,7 @@ import Modal from "./utility/Modal/Modal";
 import CityVenues from "./pages/CityVenues/CityVenues";
 import PaymentSuccess from "./pages/PaymentSuccess/PaymentSuccess";
 import Account from "./pages/Account/Account";
+import Search from "./pages/Search/Search";
 import "./App.css";
 
 class App extends Component {
@@ -24,6 +25,7 @@ class App extends Component {
                     component={PaymentSuccess}
                 />
                 <Route path="/account" component={Account} />
+                <Route path="/search/:searchTerm" component={Search} />
                 <Route path="/" component={Modal} />
             </Router>
         );

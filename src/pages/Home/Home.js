@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
 
-import "./Home.css";
 import SearchBox from "./SearchBox";
 import Spinner from "../../utility/Spinner/Spinner";
-
 import Activities from "../../components/Activities/Activities";
 import Cities from "../../components/Cities/Cities";
 import Venues from "../../components/Venues/Venues";
+import "./Home.css";
 
 class Home extends Component {
     state = {
@@ -77,7 +76,7 @@ class Home extends Component {
                     <div className="row">
                         <div className="home col s12">
                             <div className="upper-fold">
-                                <SearchBox />
+                                <SearchBox history={this.props.history} />
                             </div>
                         </div>
                     </div>
