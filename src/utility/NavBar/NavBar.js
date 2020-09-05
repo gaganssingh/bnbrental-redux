@@ -46,7 +46,9 @@ class NavBar extends Component {
                                 {this.props.auth.email ? (
                                     <>
                                         <li className="login-signup">
-                                            Hey, {this.props.auth.email}
+                                            <Link to="/account">
+                                                Hey, {this.props.auth.email}
+                                            </Link>
                                         </li>
                                         <li
                                             className="login-signup"
